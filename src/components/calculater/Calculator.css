@@ -1,0 +1,148 @@
+* {
+  margin: 0;
+}
+
+.Container {
+  padding: 70px 30px;
+  text-align: center;
+}
+
+input {
+  /* height: 20px;
+  flex: 0 0 200px;
+  margin-left: 10px;
+
+  width: 100%; */
+}
+
+.row {
+  display: flex;
+  width: 100%;
+  text-align: center;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+  flex: 40%;
+  text-align: left;
+  padding: 10px;
+  /* height: 300px; Should be removed. Only for demonstration */
+}
+label {
+  padding: 0.5rem;
+}
+.select-field {
+  /* appearance: none; */
+  background-color: #fff;
+  border: solid 1px #afafaf;
+  border-radius: 5%;
+  padding: 0.4rem;
+  margin: 0.5rem;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  /* margin-left: 10px; */
+  /* line-height:1%; */
+  width: 90%;
+
+  z-index: 1;
+
+  outline: none;
+}
+
+.profiledropdown {
+  width: 140px;
+  margin-top: -20px;
+  font-size: 15px;
+  font-weight: normal;
+  padding: 8px 0;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+}
+
+select:focus + .focus {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border: 2px solid var(--select-focus);
+  border-radius: inherit;
+}
+
+.rightField {
+  width: 20%;
+  margin: 0.8rem;
+  border: solid 1px #dddfdd;
+  border-radius: 1%;
+}
+
+.column-border {
+  margin: 0.8rem;
+  border: solid 1px #dddfdd;
+  border-radius: 1%;
+}
+.InputField  {
+  /* margin: 0.8rem; */
+  padding: 10px;
+}
+
+.dropdownDev {
+  background-color: #dddfdd;
+  padding: 0.4rem;
+  margin: 0.4rem;
+  border-radius: 10px;
+}
+
+.fee-item {
+  padding: 10px;
+}
+
+.dropdown-button {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  /* background-color: #666; */
+}
+
+.dropdown-button:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 6px 0 6px;
+  border-color: #666 transparent transparent transparent;
+  transition: transform 0.3s ease-in-out;
+}
+
+.dropdown-button.open:before {
+  transform: rotate(180deg) translateY(-50%);
+}
+
+.right-field-bottom {
+  padding: 0.5rem;
+}
+.right-field-bottom h5 {
+  padding: 0.5rem;
+}
+.span {
+  color: #c2c2c2;
+}
+.bottom {
+  width: 96%;
+  height: 50px;
+  align-items: end;
+  margin: 1rem;
+  padding: 0.6rem;
+
+  border: 1px solid #c3c3c3;
+  display: flex;
+  justify-content: space-between;
+}

@@ -6,7 +6,7 @@ import categoryData from "./categoryData"; // Import the categoryData
 
 const Calculator = () => {
   const [landingPrice, setLandingPrice] = useState("");
-  const [gstPercent, setGstPercent] = useState("");
+  const [gst, setGst] = useState("");
   const [estimatedMonthlyUnitsSold, setEstimatedMonthlyUnitsSold] =
     useState("");
   const [faultyReturnsPercent, setFaultyReturnsPercent] = useState("");
@@ -23,8 +23,8 @@ const Calculator = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
   const [referralFeePercentage, setReferralFeePercentage] = useState("");
-  const [referralFee, setReferralFee] = useState(0);
-  const [priceToBeSoldAt, setPriceToBeSoldAt] = useState(0);
+  const [referralFee, setReferralFee] = useState("");
+  const [priceToBeSoldAt, setPriceToBeSoldAt] = useState("");
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
@@ -78,7 +78,7 @@ const Calculator = () => {
         setLandingPrice(parseFloat(value));
         break;
       case "gstPercent":
-        setGstPercent(parseFloat(value));
+        setGst(parseFloat(value));
         break;
       case "estimatedMonthlyUnitsSold":
         setEstimatedMonthlyUnitsSold(parseFloat(value));
@@ -113,20 +113,31 @@ const Calculator = () => {
   //   console.log(landingPrice + "ssss");
   // };
 
-  function calculateReferralFee() {
-    const referralFee =
-      (landingPrice * parseFloat(referralFeePercentage)) / 100;
-    PriceToSoldAt();
-    console.log(referralFee + "referralFee");
-    console.log(referralFeePercentage + "referralFeePercentage");
-    setReferralFee(referralFee);
-  }
+  // function calculateReferralFee() {
+  //   const referralFee =
+  //     (landingPrice * parseFloat(referralFeePercentage)) / 100;
+  //   PriceToSoldAt();
+  //   console.log(referralFee + "referralFee");
+  //   console.log(referralFeePercentage + "referralFeePercentage");
+  //   setReferralFee(referralFee);
+  // }
 
-  function PriceToSoldAt() {
-    const priceToBeSoldAt = referralFee + shippingPrice;
-    console.log(priceToBeSoldAt + " priceToBeSoldAt");
-    setPriceToBeSoldAt(priceToBeSoldAt);
-  }
+  // function PriceToSoldAt() {
+  //   const priceToBeSoldAt = referralFee + shippingPrice;
+  //   console.log(priceToBeSoldAt + " priceToBeSoldAt");
+  //   setPriceToBeSoldAt(priceToBeSoldAt);
+  // }
+
+  const calculatePrice = () => {
+    const price = landingPrice + shippingPrice + gst;
+    const amazoneFee = price * (referralFeePercentage / 100);
+    const productToBeSoldAt = price * ((100 + targetProfitMarginPercent) / 100);
+
+    // You can use the calculated values in your UI or log them to the console
+    console.log("Price:", price);
+    console.log("Amazone Fee:", amazoneFee);
+    console.log("Product to be Sold at:", productToBeSoldAt);
+  };
 
   return (
     <div className="Container">
@@ -142,6 +153,7 @@ const Calculator = () => {
                   className="select-field "
                   value={selectedCategory}
                   onChange={handleCategoryChange}
+                  required
                 >
                   <option value="">Select Category</option>
                   {categoryOptions}
@@ -155,6 +167,7 @@ const Calculator = () => {
                   value={selectedSubcategory}
                   onChange={handleSubcategoryChange}
                   disabled={!selectedCategory}
+                  required
                 >
                   <option value="">Select Subcategory</option>
                   {subcategoryOptions}
@@ -185,6 +198,7 @@ const Calculator = () => {
                   name="landingPrice"
                   value={landingPrice}
                   onChange={handleInputChange}
+                  required
                 />
               </label>
             </div>
@@ -249,7 +263,7 @@ const Calculator = () => {
                   className="select-field"
                   type="number"
                   name="gstPercent"
-                  value={gstPercent}
+                  value={gst}
                   onChange={handleInputChange}
                 />
               </label>
@@ -264,6 +278,7 @@ const Calculator = () => {
                   name="shippingPrice"
                   value={shippingPrice}
                   onChange={handleInputChange}
+                  required
                 />
               </label>
             </div>
@@ -361,7 +376,7 @@ const Calculator = () => {
         </div>
       </div>
       <h1>{referralFee}</h1>
-      <button onClick={calculateReferralFee}>OK</button>
+      <button onClick={calculatePrice}>OK</button>
     </div>
   );
 };

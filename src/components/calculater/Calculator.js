@@ -5,6 +5,14 @@ import "./Calculator.css";
 import categoryData from "./categoryData"; // Import the categoryData
 
 const Calculator = () => {
+//req
+const [isRequiredShipping, setIsRequiredShipping] = useState(false);
+const [isRequiredSubcategory, setIsRequiredSubcategory] = useState(false);
+const [isRequiredLandingprice, setIsRequiredLandingprice] = useState(false);
+
+const [isRequiredCategory, setIsRequiredCategory] = useState(false);
+const [isButtonPressed, setIsButtonPressed] = useState(false);
+
   const [landingPrice, setLandingPrice] = useState("");
   const [gst, setGst] = useState("");
   const [estimatedMonthlyUnitsSold, setEstimatedMonthlyUnitsSold] =
@@ -25,6 +33,7 @@ const Calculator = () => {
   const [referralFeePercentage, setReferralFeePercentage] = useState("");
   const [referralFee, setReferralFee] = useState("");
   const [priceToBeSoldAt, setPriceToBeSoldAt] = useState("");
+  const [amazoneFee, setAmazoneFee] = useState(" 0.00");
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
@@ -131,12 +140,39 @@ const Calculator = () => {
   const calculatePrice = () => {
     const price = landingPrice + shippingPrice + gst;
     const amazoneFee = price * (referralFeePercentage / 100);
-    const productToBeSoldAt = price * ((100 + targetProfitMarginPercent) / 100);
-
+    const priceToBeSoldAt = price * ((100 + targetProfitMarginPercent) / 100);
+    setAmazoneFee(amazoneFee);
+    setPriceToBeSoldAt(priceToBeSoldAt);
     // You can use the calculated values in your UI or log them to the console
     console.log("Price:", price);
     console.log("Amazone Fee:", amazoneFee);
-    console.log("Product to be Sold at:", productToBeSoldAt);
+    console.log("Product to be Sold at:", priceToBeSoldAt);
+
+    setIsButtonPressed(true);
+
+    if (shippingPrice === '') {
+      setIsRequiredShipping(true);
+    } else {
+      setIsRequiredShipping(false);
+    }
+
+    if (selectedSubcategory === '') {
+      setIsRequiredSubcategory(true);
+    } else {
+      setIsRequiredSubcategory(false);
+    }
+
+    if (selectedCategory === '') {
+      setIsRequiredCategory(true);
+    } else {
+      setIsRequiredCategory(false);
+    }
+
+    if (landingPrice === '') {
+      setIsRequiredLandingprice(true);
+    } else {
+      setIsRequiredLandingprice(false);
+    }
   };
 
   return (
@@ -150,7 +186,8 @@ const Calculator = () => {
 
                 <select
                   id="category"
-                  className="select-field "
+                  className={`select-field${isRequiredCategory && isButtonPressed ? ' required' : ''}`}
+         
                   value={selectedCategory}
                   onChange={handleCategoryChange}
                   required
@@ -158,12 +195,14 @@ const Calculator = () => {
                   <option value="">Select Category</option>
                   {categoryOptions}
                 </select>
+                {isRequiredCategory && isButtonPressed && <div className="required-text">Required</div>}
+   
               </div>
               <div className=" InputField">
-                <label htmlFor="subcategory">Subcategory:</label>
+                <label htmlFor="subcategory">Subcategory:
                 <select
                   id="subcategory"
-                  className="select-field "
+                  className={`select-field${isRequiredSubcategory && isButtonPressed ? ' required' : ''}`}
                   value={selectedSubcategory}
                   onChange={handleSubcategoryChange}
                   disabled={!selectedCategory}
@@ -172,6 +211,8 @@ const Calculator = () => {
                   <option value="">Select Subcategory</option>
                   {subcategoryOptions}
                 </select>
+                {isRequiredSubcategory && isButtonPressed && <div className="required-text">Required</div>}
+                </label>
               </div>
             </div>
 
@@ -193,13 +234,14 @@ const Calculator = () => {
               <label>
                 Landing Price:
                 <input
-                  className="select-field"
+                  className={`select-field${isRequiredLandingprice && isButtonPressed ? ' required' : ''}`}
                   type="number"
                   name="landingPrice"
                   value={landingPrice}
                   onChange={handleInputChange}
                   required
                 />
+                 {isRequiredLandingprice && isButtonPressed && <div className="required-text">Required</div>}
               </label>
             </div>
 
@@ -273,13 +315,14 @@ const Calculator = () => {
               <label>
                 Shipping Price:
                 <input
-                  className="select-field"
-                  type="number"
+                    className={`select-field${isRequiredShipping && isButtonPressed ? ' required' : ''}`}
+                    type="number"
                   name="shippingPrice"
                   value={shippingPrice}
                   onChange={handleInputChange}
                   required
                 />
+                 {isRequiredShipping && isButtonPressed && <div className="required-text">Required</div>}
               </label>
             </div>
 
@@ -314,12 +357,12 @@ const Calculator = () => {
         <div className="rightField">
           <div className="dropdownDev">
             <p>
-              Amazone fee{"INR 0.0 "}
+              Amazone fee { amazoneFee}
               <span
                 onClick={handleToggleDropdown}
                 className={`dropdown-button ${showDropdown ? "open" : ""}`}
               >
-                {showDropdown ? "▲" : "▼"}
+                {showDropdown ? " ▲ " : " ▼ "}
               </span>
             </p>
             {showDropdown && (
@@ -361,8 +404,8 @@ const Calculator = () => {
 
             {/* <h5><span className="span">ToTal Expenditure:</span> 326.47</h5> */}
             <h5>
-              <span className="span">Price to be sold at:</span>{" "}
-              {priceToBeSoldAt}
+              <span className="span">Price to be sold at: </span>
+              { priceToBeSoldAt}
             </h5>
           </div>
         </div>
